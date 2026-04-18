@@ -28,8 +28,13 @@ public class ObjectiveTrigger : MonoBehaviour
     public void PlaceAt(Vector3 position)
     {
         transform.position = position;
-        visualIndicator?.SetActive(true);
+        if (visualIndicator != null)
+            visualIndicator.SetActive(true);
     }
 
-    public void Deactivate() => visualIndicator?.SetActive(false);
+    public void Deactivate()
+    {
+        if (visualIndicator != null)
+            visualIndicator.SetActive(false);
+    }
 }

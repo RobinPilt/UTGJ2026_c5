@@ -7,6 +7,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    // TEMP — remove when MinigameManager exists
+    [ContextMenu("DEBUG Complete Task")]
+    public void DebugCompleteTask() => ReportTaskResult(true);
+
+    [ContextMenu("DEBUG Fail Task")]
+    public void DebugFailTask() => ReportTaskResult(false);
+
     [Header("Settings")]
     [SerializeField] private int totalTasks = 3;
     [SerializeField] private int tasksNeededForGoodEnding = 2; // out of 3
