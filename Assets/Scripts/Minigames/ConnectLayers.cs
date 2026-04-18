@@ -52,6 +52,9 @@ public class ConnectLayers : Minigame
         Shuffle(_correctOrder);
         _playerInput.Clear();
         _inputEnabled = false;
+        skyLayer.alphaHitTestMinimumThreshold = 0.1f;
+        earthLayer.alphaHitTestMinimumThreshold = 0.1f;
+        underworldLayer.alphaHitTestMinimumThreshold = 0.1f;
         StartCoroutine(PlayIntroThenEnable());
     }
 
