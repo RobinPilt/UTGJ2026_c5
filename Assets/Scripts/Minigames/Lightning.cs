@@ -12,21 +12,28 @@ using TMPro;
 ///   Three successful reactions complete the minigame.
 ///   Three total misses (too late OR too early) = failure.
 ///
+/// CO-DEV RULES FOLLOWED:
+///   ✔ Inherits from Minigame, not MonoBehaviour.
+///   ✔ All startup logic is in OnBegin(); all reset logic is in OnCleanup().
+///   ✔ Calls Complete(true) on win, Complete(false) on loss — nothing else.
+///   ✔ Never calls GameManager directly.
+///   ✔ Never touches gameObject.SetActive() on this panel (Begin/End do that).
+///   ✔ Does not care what happens after Complete() — MinigameManager handles it.
+///
 /// UNITY SETUP:
-///   1. Attach this script to the minigame's root UI panel GameObject.
-///   2. Assign the panel as index 1 in MinigameManager → minigames list.
-///   3. In the Inspector, wire up every [SerializeField] reference.
-///      See each header below for what to create in the Canvas hierarchy.
+///   1. Create a UI panel in the Canvas, attach this script to it.
+///   2. Drag the panel into MinigameManager → Minigames list at index 1.
+///   3. Wire up the [SerializeField] fields in the Inspector.
 ///
 /// CANVAS HIERARCHY SUGGESTION:
-///   MinigamePanel (this script)
-///   ├── Background          (dark Image, fills panel)
-///   ├── Title               (TMP "REAGEERIMINE")
-///   ├── StageLabel          (TMP — assign → stageLabel)
-///   ├── FeedbackLabel       (TMP — assign → feedbackLabel)
-///   ├── LightningBolt       (Image of bolt, starts hidden — assign → lightningBolt)
-///   ├── ScreenFlash         (white Image, full-panel, starts hidden — assign → screenFlash)
-///   └── Switch              (Button on the powerline segment — assign → switchButton)
+///   MinigamePanel  ← this script lives here
+///   ├── Background      (dark Image, fills panel)
+///   ├── Title           (TMP label — "REAGEERIMINE")
+///   ├── StageLabel      (TMP — assign → stageLabel)
+///   ├── FeedbackLabel   (TMP — assign → feedbackLabel)
+///   ├── LightningBolt   (Image of bolt, starts disabled — assign → lightningBolt)
+///   ├── ScreenFlash     (full-panel white Image, starts disabled — assign → screenFlash)
+///   └── Switch          (Button on the powerline segment — assign → switchButton)
 /// </summary>
 class Minigame3 : Minigame
 {
@@ -127,8 +134,6 @@ class Minigame3 : Minigame
 
         SetActive(lightningBolt, false);
         SetActive(screenFlash,   false);
-
-        base.OnCleanup();
     }
 
     // ── Core Game Loop ────────────────────────────────────────────────
