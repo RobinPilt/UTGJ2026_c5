@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
         if (orthoCam == null) orthoCam = Camera.main;
 
+        _inputEnabled = false; // locked until GameManager reaches Navigation state
     }
 
     // Moved from OnEnable → Start so GameManager.Instance is guaranteed to exist

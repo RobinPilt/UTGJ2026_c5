@@ -139,4 +139,15 @@ public class RoomManager : MonoBehaviour
         if (GameManager.Instance != null)
             GameManager.Instance.OnRoomReloadBegin.RemoveListener(BeginReload);
     }
+
+    /// <summary>
+    /// Called once on first scene load. Skips the fade and shuffle —
+    /// just fires the hint, then hands off to Navigation.
+    /// </summary>
+    public void PlayInitialHint()
+    {
+        ActivateCurrentObjective();
+        OnHintBegin?.Invoke(); // → DialogueManager.PlayHint()
+                               // OnHintComplete() → GameManager.OnRoomReady() → Navigation as usual
+    }
 }

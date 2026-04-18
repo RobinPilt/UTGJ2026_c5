@@ -41,7 +41,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start() => TransitionTo(GameState.Navigation);
+    private void Start()
+    {
+        // Don't go straight to Navigation on first load.
+        // Set state silently, let RoomManager play the initial hint first.
+        _state = GameState.RoomReload;
+        FindFirstObjectByType<RoomManager>()?.PlayInitialHint();
+    }
 
     // ── Core state machine ──────────────────────────────────────────
     public void TransitionTo(GameState next)

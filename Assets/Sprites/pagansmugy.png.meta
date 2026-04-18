@@ -1,0 +1,296 @@
+fileFormatVersion: 2
+guid: 28c249b0b15949c4c9b695c1f989d2ff
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pagansmugy_30
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 0
+        width: 377
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0e9925d415446149b741048dfe81a48
+      internalID: -1139545385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pagansmugy_33
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 0
+        width: 377
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 976690e49a6f60443a8dfb8bafa0669d
+      internalID: -955731895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pagansmugy_36
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 0
+        width: 377
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6fe7ff0a6c1745468dbca78d5f893a8
+      internalID: -1433163318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pagansmugy_39
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 50
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 964bb78b73919064585bed5fb050aa13
+      internalID: -1403766152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pagansmugy_40
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 50
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 055aaa5b363c8cb459a3082901335021
+      internalID: 892401098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pagansmugy_41
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 50
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce9117796ba7b71418ea82ad1b7db363
+      internalID: 1919310934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e24972b7fd69f14abfcaaf9686423b3
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      pagansmugy_0: 1902242725
+      pagansmugy_1: 609897138
+      pagansmugy_10: -657857242
+      pagansmugy_11: -991949338
+      pagansmugy_12: -392670348
+      pagansmugy_13: -1107587343
+      pagansmugy_14: -595317434
+      pagansmugy_15: 1871670714
+      pagansmugy_16: 162277646
+      pagansmugy_17: -2061453931
+      pagansmugy_18: -475658949
+      pagansmugy_19: 283715888
+      pagansmugy_2: 39754215
+      pagansmugy_20: 1672282611
+      pagansmugy_21: 1403505471
+      pagansmugy_22: 1939641849
+      pagansmugy_23: 1208101244
+      pagansmugy_24: -1795254079
+      pagansmugy_25: -1046838610
+      pagansmugy_26: -172267904
+      pagansmugy_27: -1130353958
+      pagansmugy_28: 441858975
+      pagansmugy_29: -1594356244
+      pagansmugy_3: -1143529967
+      pagansmugy_30: -1139545385
+      pagansmugy_31: -1773804207
+      pagansmugy_32: -491552267
+      pagansmugy_33: -955731895
+      pagansmugy_34: -2020608374
+      pagansmugy_35: -302822513
+      pagansmugy_36: -1433163318
+      pagansmugy_37: -41092007
+      pagansmugy_38: -805254803
+      pagansmugy_39: -1403766152
+      pagansmugy_4: 661068211
+      pagansmugy_40: 892401098
+      pagansmugy_41: 1919310934
+      pagansmugy_42: -917955802
+      pagansmugy_43: 1523735321
+      pagansmugy_44: -285409087
+      pagansmugy_5: 2054706232
+      pagansmugy_6: 572212284
+      pagansmugy_7: 110782593
+      pagansmugy_8: 925461987
+      pagansmugy_9: 1381027836
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
