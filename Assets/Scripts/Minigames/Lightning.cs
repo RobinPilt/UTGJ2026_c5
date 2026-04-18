@@ -11,15 +11,7 @@ using TMPro;
 ///   The player must click the switch within 1 second of the strike.
 ///   Three successful reactions complete the minigame.
 ///   Three total misses (too late OR too early) = failure.
-///
-/// CO-DEV RULES FOLLOWED:
-///   ✔ Inherits from Minigame, not MonoBehaviour.
-///   ✔ All startup logic is in OnBegin(); all reset logic is in OnCleanup().
-///   ✔ Calls Complete(true) on win, Complete(false) on loss — nothing else.
-///   ✔ Never calls GameManager directly.
-///   ✔ Never touches gameObject.SetActive() on this panel (Begin/End do that).
-///   ✔ Does not care what happens after Complete() — MinigameManager handles it.
-///
+
 /// UNITY SETUP:
 ///   1. Create a UI panel in the Canvas, attach this script to it.
 ///   2. Drag the panel into MinigameManager → Minigames list at index 1.
