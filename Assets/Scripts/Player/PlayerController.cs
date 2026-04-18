@@ -3,112 +3,125 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Feel")]
-    [SerializeField] private float moveForce = 18f;  // how hard we push
-    [SerializeField] private float maxSpeed = 7f;   // top speed cap
-    [SerializeField] private float linearDrag = 9f;   // high = snappy stop
-    [SerializeField] private float ballRadius = 0.5f; // used for roll math
+    [Header("Movement Feel")]
+    [SerializeField] private float maxSpeed = 7f;
+    [SerializeField] private float steeringForce = 22f;   // snappiness of direction changes
+    [SerializeField] private float linearDrag = 6f;
+    [SerializeField] private float slowRadius = 2.5f;  // begin decelerating within this distance
+    [SerializeField] private float stopRadius = 0.22f; // snap-stop threshold
+    [SerializeField] private float ballRadius = 0.5f;  // used for rolling visual math
+
+    [Header("Click Detection")]
+    [SerializeField] private LayerMask groundLayer;  // assign "Ground" layer in Inspector
+    [SerializeField] private Camera orthoCam;
 
     [Header("References")]
-    [SerializeField] private Transform ballVisual;  // child mesh — rotates for rolling
-    [SerializeField] private Camera orthoCam;    // assign your ortho camera
+    [SerializeField] private Transform ballVisual;   // child mesh that spins visually
+    [SerializeField] private NavMarker navMarker;    // scene instance of the marker prefab
 
     private Rigidbody _rb;
-    private bool _inputEnabled = true;
+    private Vector3 _targetPos;
+    private bool _hasTarget;
+    private bool _inputEnabled;
 
     // ── Lifecycle ───────────────────────────────────────────────────
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-
-        // Freeze rotation on the physics body — we spin the visual manually
-        // so the ball rolls smoothly without fighting the physics solver.
         _rb.constraints = RigidbodyConstraints.FreezeRotation;
         _rb.linearDamping = linearDrag;
         _rb.angularDamping = 0f;
-        _rb.interpolation = RigidbodyInterpolation.Interpolate; // smooth camera follow
+        _rb.interpolation = RigidbodyInterpolation.Interpolate;
 
         if (orthoCam == null) orthoCam = Camera.main;
+
     }
 
-    private void OnEnable()
+    // Moved from OnEnable → Start so GameManager.Instance is guaranteed to exist
+    private void Start()
     {
-        // Auto-subscribe to GameManager events if present
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnNavigationBegin.AddListener(EnableInput);
-            GameManager.Instance.OnMinigameBegin.AddListener(DisableInput);
-            GameManager.Instance.OnDialogueBegin.AddListener(DisableInput);
-            GameManager.Instance.OnRoomReloadBegin.AddListener(DisableInput);
-        }
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.OnNavigationBegin.AddListener(EnableInput);
+        GameManager.Instance.OnMinigameBegin.AddListener(DisableInput);
+        GameManager.Instance.OnDialogueBegin.AddListener(DisableInput);
+        GameManager.Instance.OnRoomReloadBegin.AddListener(DisableInput);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnNavigationBegin.RemoveListener(EnableInput);
-            GameManager.Instance.OnMinigameBegin.RemoveListener(DisableInput);
-            GameManager.Instance.OnDialogueBegin.RemoveListener(DisableInput);
-            GameManager.Instance.OnRoomReloadBegin.RemoveListener(DisableInput);
-        }
+        // OnDestroy is safer than OnDisable for unsubscribing singletons
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.OnNavigationBegin.RemoveListener(EnableInput);
+        GameManager.Instance.OnMinigameBegin.RemoveListener(DisableInput);
+        GameManager.Instance.OnDialogueBegin.RemoveListener(DisableInput);
+        GameManager.Instance.OnRoomReloadBegin.RemoveListener(DisableInput);
     }
 
-    // ── Physics ─────────────────────────────────────────────────────
-    private void FixedUpdate()
-    {
-        if (!_inputEnabled) return;
-
-        Vector2 raw = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (raw == Vector2.zero) return;
-
-        Vector3 moveDir = GetCameraRelativeDirection(raw);
-
-        // Only add force if we're under max speed in that direction
-        float speedAlongDir = Vector3.Dot(_rb.linearVelocity, moveDir);
-        if (speedAlongDir < maxSpeed)
-            _rb.AddForce(moveDir * moveForce, ForceMode.Force);
-    }
-
-    // ── Visuals ─────────────────────────────────────────────────────
+    // ── Per-frame ────────────────────────────────────────────────────
     private void Update()
     {
-        if (ballVisual == null) return;
+        if (!_inputEnabled) return;
+        HandleClick();
         RollBallVisual();
     }
 
-    /// <summary>
-    /// Spins the mesh so it looks like the ball is genuinely rolling.
-    /// The axis is perpendicular to the velocity (cross product with up),
-    /// and speed is derived from arc length = v / circumference * 360°.
-    /// </summary>
-    private void RollBallVisual()
+    private void FixedUpdate()
     {
-        Vector3 flatVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
-        if (flatVelocity.magnitude < 0.05f) return;
-
-        Vector3 rollAxis = Vector3.Cross(Vector3.up, flatVelocity).normalized;
-        float rollDeg = (flatVelocity.magnitude / (2f * Mathf.PI * ballRadius)) * 360f;
-
-        ballVisual.Rotate(rollAxis, rollDeg * Time.deltaTime, Space.World);
+        if (!_inputEnabled || !_hasTarget) return;
+        SeekTarget();
     }
 
-    // ── Camera-relative input ────────────────────────────────────────
-    /// <summary>
-    /// Converts raw WASD input into world-space direction relative to the
-    /// orthographic camera's orientation. This means "up" always moves the
-    /// ball away from the camera regardless of camera angle.
-    /// </summary>
-    private Vector3 GetCameraRelativeDirection(Vector2 input)
+    // ── Click → raycast → set target ────────────────────────────────
+    private void HandleClick()
     {
-        Vector3 forward = orthoCam.transform.forward;
-        Vector3 right = orthoCam.transform.right;
+        if (!Input.GetMouseButtonDown(0)) return;
 
-        // Flatten to horizontal plane so we don't push into/out of the ground
-        forward.y = 0f; forward.Normalize();
-        right.y = 0f; right.Normalize();
+        Ray ray = orthoCam.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit, 200f, groundLayer)) return;
 
-        return (forward * input.y + right * input.x).normalized;
+        _targetPos = hit.point;
+        _targetPos.y = transform.position.y; // stay on the horizontal plane
+        _hasTarget = true;
+        navMarker?.ShowAt(_targetPos);
+    }
+
+    // ── Arrival steering ─────────────────────────────────────────────
+    private void SeekTarget()
+    {
+        Vector3 toTarget = _targetPos - transform.position;
+        toTarget.y = 0f;
+        float dist = toTarget.magnitude;
+
+        if (dist <= stopRadius)
+        {
+            _rb.linearVelocity = Vector3.zero;
+            _hasTarget = false;
+            navMarker?.Hide();
+            return;
+        }
+
+        // Scale desired speed down linearly inside slowRadius
+        float speedScale = Mathf.Clamp01(dist / slowRadius);
+        Vector3 desiredVelocity = toTarget.normalized * (maxSpeed * speedScale);
+
+        // Steering force = gap between where we want to be and where we are
+        Vector3 flatCurrent = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+        Vector3 steering = desiredVelocity - flatCurrent;
+
+        _rb.AddForce(steering * steeringForce, ForceMode.Force);
+    }
+
+    // ── Rolling visual ───────────────────────────────────────────────
+    private void RollBallVisual()
+    {
+        if (ballVisual == null) return;
+
+        Vector3 flatVel = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+        if (flatVel.magnitude < 0.05f) return;
+
+        Vector3 rollAxis = Vector3.Cross(Vector3.up, flatVel).normalized;
+        float rollDeg = (flatVel.magnitude / (2f * Mathf.PI * ballRadius)) * 360f;
+        ballVisual.Rotate(rollAxis, rollDeg * Time.deltaTime, Space.World);
     }
 
     // ── Public API ───────────────────────────────────────────────────
@@ -118,10 +131,9 @@ public class PlayerController : MonoBehaviour
     private void SetInput(bool on)
     {
         _inputEnabled = on;
-        if (!on)
-        {
-            _rb.linearVelocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-        }
+        _hasTarget = false;
+        _rb.linearVelocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        if (!on) navMarker?.Hide();
     }
 }
