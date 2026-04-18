@@ -14,4 +14,6 @@ public class NPC : MonoBehaviour
             DialogueManager.Instance.StartDialogue(dialogueLines, characterPortrait);
         }
     }
+
+
 }
