@@ -25,8 +25,7 @@ public class LayerDistortionEffect : BaseMeshEffect
     {
         if (distortionAmount > 0.001f)
         {
-            _wobbleTime += Time.deltaTime * wobbleSpeed;
-            // Mark mesh dirty every frame so ModifyMesh fires
+            _wobbleTime = Mathf.Repeat(_wobbleTime + Time.deltaTime * wobbleSpeed, Mathf.PI * 2f);
             graphic.SetVerticesDirty();
         }
     }

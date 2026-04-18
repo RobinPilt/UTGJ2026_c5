@@ -1,16 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-/// <summary>
-/// Attach to each layer Image (Sky, Earth, Underworld).
-/// Forwards clicks to ConnectLayers during the selection phase.
-/// </summary>
-public class LayerClickHandler : MonoBehaviour, IPointerClickHandler
+public class LayerClickHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
     public ConnectLayers.LayerType layerType;
 
-    public void OnPointerClick(PointerEventData e)
-    {
+    public void OnPointerClick(PointerEventData e) =>
         ConnectLayers.Instance?.OnLayerClicked(layerType);
-    }
+
+    public void OnPointerEnter(PointerEventData e) =>
+        ConnectLayers.Instance?.OnLayerHoverEnter(layerType);
 }
