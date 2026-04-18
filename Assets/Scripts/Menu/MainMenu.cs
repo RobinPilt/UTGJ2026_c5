@@ -125,7 +125,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        if (fader != null) fader.FadeTo("Level");
+        if (fader != null) fader.FadeTo("Room1");
         else Debug.LogError("SceneFader is missing from MainMenu script!");
     }
 
