@@ -2,11 +2,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public TextMeshProUGUI buttonText;
     public Color normalColor = new Color(0.7f, 0.7f, 0.7f, 1f);
     public Color hoverColor = Color.white;
+
+    [Header("Audio")]
+    public AudioClip clickSound;
+    public AudioSource audioSource;
 
     private Material instancedMat;
     private bool isHovered = false;
@@ -56,5 +60,11 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         // Optional: Deselect if you want markers to vanish when not hovering anything
         // EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (clickSound != null && audioSource != null)
+            audioSource.PlayOneShot(clickSound);
     }
 }
