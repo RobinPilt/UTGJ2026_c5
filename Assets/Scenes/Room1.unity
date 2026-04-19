@@ -710,14 +710,14 @@ RectTransform:
   - {fileID: 1099172592}
   - {fileID: 960811138}
   - {fileID: 1616623251}
+  - {fileID: 1381300315}
   - {fileID: 519061636}
   - {fileID: 879142292}
+  - {fileID: 1028718838}
   - {fileID: 1589848957}
   - {fileID: 361954600}
   - {fileID: 1253897185}
-  - {fileID: 1381300315}
   - {fileID: 614675292}
-  - {fileID: 1028718838}
   m_Father: {fileID: 1984521332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -745,8 +745,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 9ddf50af19abb2349bae2c97d5f4aee3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -772,9 +772,9 @@ MonoBehaviour:
   screenFlash: {fileID: 879142293}
   switchButton: {fileID: 1589848958}
   audioSource: {fileID: 186306425}
-  thunderSFX: {fileID: 0}
-  successSFX: {fileID: 0}
-  failSFX: {fileID: 0}
+  thunderSFX: {fileID: 8300000, guid: 79738e4430dc5f640b8b91b0ba0442fc, type: 3}
+  successSFX: {fileID: 8300000, guid: 781a26abec5dc48488366dfeda9b9f14, type: 3}
+  failSFX: {fileID: 8300000, guid: 96a8c620f571faf4faef625424e74453, type: 3}
   minInterval: 1
   maxInterval: 5
   reactionWindow: 1
@@ -3556,7 +3556,7 @@ GameObject:
   - component: {fileID: 960811140}
   - component: {fileID: 960811139}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Powerlines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3675,7 +3675,7 @@ GameObject:
   - component: {fileID: 1028718840}
   - component: {fileID: 1028718839}
   m_Layer: 5
-  m_Name: ScreenFlash
+  m_Name: ScreenFlashO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3959,7 +3959,7 @@ GameObject:
   - component: {fileID: 1099172594}
   - component: {fileID: 1099172593}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5008,7 +5008,7 @@ GameObject:
   - component: {fileID: 1381300317}
   - component: {fileID: 1381300316}
   m_Layer: 5
-  m_Name: 'FeedbackLabel '
+  m_Name: FeedbackLabelO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
