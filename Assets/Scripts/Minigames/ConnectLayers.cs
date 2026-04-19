@@ -248,7 +248,7 @@ public class ConnectLayers : Minigame
 
         var  cam = canvas != null ? canvas.worldCamera : null;
         bool hit = Vector2.Distance(screenPos,
-            RectTransformUtility.WorldToScreenPoint(cam, target.position)) < 40f;
+            RectTransformUtility.WorldToScreenPoint(cam, target.position)) < 75f;
 
         if (hit)
         {

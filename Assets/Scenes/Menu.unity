@@ -1275,8 +1275,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: 499, y: 44}
+  m_SizeDelta: {x: 260.65, y: 32.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &888654081
 MonoBehaviour:
@@ -1614,8 +1614,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: BACK
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 48f6042cedca5ec47a3ddc473ec89d83, type: 2}
+  m_sharedMaterial: {fileID: 5898457124887681219, guid: 48f6042cedca5ec47a3ddc473ec89d83, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1863,8 +1863,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 205.3347, y: 43.3721}
+  m_AnchoredPosition: {x: 499.00006, y: 111.100006}
+  m_SizeDelta: {x: 334.5, y: 70.65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1118892208
 MonoBehaviour:
@@ -1920,8 +1920,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -2075,8 +2075,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 227.9846, y: 43.3721}
+  m_AnchoredPosition: {x: 499, y: 274}
+  m_SizeDelta: {x: 371.39, y: 70.65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1294140796
 MonoBehaviour:
@@ -2132,8 +2132,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -2396,7 +2396,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 612d1691f1b06c041be3658cec9c82b5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.08
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2531,8 +2531,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: 499.00006, y: 192.55002}
+  m_SizeDelta: {x: 260.65, y: 32.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1392852895
 MonoBehaviour:
@@ -3460,8 +3460,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 300}
-  m_SizeDelta: {x: 300, y: 80}
+  m_AnchoredPosition: {x: 499, y: 397}
+  m_SizeDelta: {x: 202.78, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1879303168
 MonoBehaviour:
@@ -3570,8 +3570,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuButton
   buttonText: {fileID: 1070345055}
-  normalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-  hoverColor: {r: 1, g: 1, b: 1, a: 1}
+  normalColor: {r: 0, g: 0, b: 0, a: 1}
+  hoverColor: {r: 0.27672952, g: 0.27672952, b: 0.27672952, a: 1}
   clickSound: {fileID: 8300000, guid: 19b184ac71366484c92adab500934282, type: 3}
   audioSource: {fileID: 37229406}
 --- !u!1 &1952188311

@@ -819,6 +819,7 @@ GameObject:
   - component: {fileID: 870272958}
   - component: {fileID: 870272960}
   - component: {fileID: 870272959}
+  - component: {fileID: 870272961}
   m_Layer: 0
   m_Name: OutroSceneManager
   m_TagString: Untagged
@@ -898,18 +899,117 @@ MonoBehaviour:
   goodEndingClip: {fileID: 32900000, guid: 1de4ddc22d755014c9e9dc28f564647f, type: 3}
   goodEndingLines:
   - Remarkable.
-  - You have exceeded expectations.
+  - You have proven yourself to be useful to those who require your services.
   - Perhaps there is hope for you yet.
+  - I think I have found your first master already.
   badEndingClip: {fileID: 32900000, guid: fd74b52dd3b192d4289beb75dfc09f7e, type: 3}
   badEndingLines:
   - Disappointing.
-  - You have failed the signal.
-  - We will not be trying again.
+  - I really thought you could do more than that...
+  - You know, I am perpetually cold and a little fire could be of use.
+  - 'Lend me your hand one last time. '
   mainMenuSceneName: Menu
   pauseAfterLine: 0.8
   glitchDuration: 0.5
   finalPause: 1.2
   fadeToVideoDelay: 0.3
+--- !u!82 &870272961
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870272956}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -6760723939172352315, guid: cbb728270b4bee7479770262db99a61e, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: a3d12467765f2734883cccb1a3c18cf4, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.6
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1026844468
 GameObject:
   m_ObjectHideFlags: 0

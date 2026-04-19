@@ -1932,6 +1932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 520114982}
   - component: {fileID: 520114981}
+  - component: {fileID: 520114983}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1983,6 +1984,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &520114983
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520114980}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -8454941196134370077, guid: cbb728270b4bee7479770262db99a61e, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 3df4b7a45eb92534d922dc9040ea6e30, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &528829591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2939,7 +3037,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &862581327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3777,15 +3875,17 @@ MonoBehaviour:
   - objectiveName: Rabbit
     trigger: {fileID: 8650600847109955367}
     hintAudio: {fileID: 8300000, guid: ee28e0c4ef121564d94952220691e0ca, type: 3}
-    hintLine: Bouncing around...
+    hintLine: "Bouncing around... It likes grass. \nIt looks unassuming, but can
+      be gone in a second."
   - objectiveName: DogSheep
     trigger: {fileID: 3469287838455808378}
     hintAudio: {fileID: 8300000, guid: 287c34f5494977b44b92fa8f4bd8dcc2, type: 3}
-    hintLine: It looks like a dog but acts like a sheep
+    hintLine: The dog in sheep's skin... or the sheep in dog's skin?
   - objectiveName: Ketraja
     trigger: {fileID: 919132148751550737}
     hintAudio: {fileID: 8300000, guid: 822b12f869558d045b8c7692131ce257, type: 3}
-    hintLine: Pit stop
+    hintLine: You spin me right round... well, pedal. If you had legs, you could
+      work it. I'm not sure what it is.
   fadeInDelay: 0.2
   hintDelay: 0.5
   OnHintBegin:
@@ -4180,7 +4280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6164,30 +6264,28 @@ MonoBehaviour:
   - sequenceName: 1
     lines:
     - speaker: Vanapagan
-      text: "Haha, hea t\xF6\xF6 1"
+      text: Not bad for starters.
   - sequenceName: 2
     lines:
     - speaker: Vanapagan
-      text: "Haha hea t\xF6\xF6 2"
+      text: I'm impressed. Just kidding. Well, kind of. One more try.
   - sequenceName: 3
     lines:
     - speaker: Vanapagan
-      text: "Norm t\xF6\xF6"
+      text: I am satisfied. You turned out a capable invention.
   hintSequences:
   - sequenceName: 1
     lines:
     - speaker: Vanapagan
-      text: Haha hint 1
+      text: Poking around can lead you to places.
   - sequenceName: 2
     lines:
     - speaker: Vanapagan
-      text: Hint 2 !!
+      text: Clicks dictate destinations.
   - sequenceName: 3
     lines:
     - speaker: Vanapagan
-      text: Viiimane HINT
-    - speaker: Vanapagan
-      text: Kura
+      text: A tap ought to tell you where to go.
 --- !u!4 &1605708566
 Transform:
   m_ObjectHideFlags: 0
@@ -6485,7 +6583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Next
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6775,8 +6873,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.7}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -262.5, y: -5}
-  m_SizeDelta: {x: -635, y: -49.999992}
+  m_AnchoredPosition: {x: -209.05228, y: -5}
+  m_SizeDelta: {x: -528.1046, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1683739546
 MonoBehaviour:
@@ -6912,8 +7010,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -675.48, y: 309.01}
-  m_SizeDelta: {x: 472.14, y: 274.81}
+  m_AnchoredPosition: {x: -613.62, y: 230.08}
+  m_SizeDelta: {x: 348.42, y: 432.66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1766373819
 MonoBehaviour:
@@ -6935,8 +7033,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The three realms make up this world in a certain order. Do you recognize
-    the sounds?
+  m_text: "The three realms make up this world in a certain order. Do you recognize
+    the sounds? \nConnect the realms..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 80be3d41f38db6147a0e2dd10eaf3b8f, type: 2}
   m_sharedMaterial: {fileID: 5110369998283793755, guid: 80be3d41f38db6147a0e2dd10eaf3b8f, type: 2}
@@ -9488,8 +9586,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.042842776, y: 0.03220102, z: 0.07609508}
-  m_Center: {x: -0.0040674573, y: 0.0006878849, z: 0.0021838774}
+  m_Size: {x: 0.029008308, y: 0.03220102, z: 0.05973652}
+  m_Center: {x: -0.00056594197, y: 0.0006878847, z: 0.0010114472}
 --- !u!1 &3655000510782000217
 GameObject:
   m_ObjectHideFlags: 0

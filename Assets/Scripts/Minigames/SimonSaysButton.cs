@@ -11,6 +11,7 @@ public class SimonSaysButton : MonoBehaviour, IPointerClickHandler
     [Header("Visuals")]
     [SerializeField] private Image glowOverlay;
     [SerializeField] private float flashDuration = 0.4f;
+    [SerializeField] private float playerFlashDuration = 0.15f; // shorter than instruction flash
     [SerializeField] private float dimAlpha = 0f;
     [SerializeField] private float glowAlpha = 1f;
 
@@ -41,6 +42,7 @@ public class SimonSaysButton : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_interactable) return;
+        StartCoroutine(PlayerFlash()); // visual feedback first
         SimonSaysMinigame.Instance?.OnButtonPressed(signalType);
     }
 
@@ -48,6 +50,14 @@ public class SimonSaysButton : MonoBehaviour, IPointerClickHandler
     {
         if (_glowController != null)
             _glowController.SetGlow(on);
+    }
+
+    private IEnumerator PlayerFlash()
+    {
+        SetGlow(true);
+        if (signalSound != null) audioSource.PlayOneShot(signalSound);
+        yield return new WaitForSeconds(playerFlashDuration);
+        SetGlow(false);
     }
 }
 
