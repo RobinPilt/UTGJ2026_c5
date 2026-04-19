@@ -3774,15 +3774,15 @@ MonoBehaviour:
   objectives:
   - objectiveName: Rabbit
     trigger: {fileID: 8650600847109955367}
-    hintAudio: {fileID: 0}
+    hintAudio: {fileID: 8300000, guid: ee28e0c4ef121564d94952220691e0ca, type: 3}
     hintLine: Bouncing around...
   - objectiveName: DogSheep
     trigger: {fileID: 3469287838455808378}
-    hintAudio: {fileID: 0}
+    hintAudio: {fileID: 8300000, guid: 287c34f5494977b44b92fa8f4bd8dcc2, type: 3}
     hintLine: It looks like a dog but acts like a sheep
   - objectiveName: Ketraja
     trigger: {fileID: 919132148751550737}
-    hintAudio: {fileID: 0}
+    hintAudio: {fileID: 8300000, guid: 822b12f869558d045b8c7692131ce257, type: 3}
     hintLine: Pit stop
   fadeInDelay: 0.2
   hintDelay: 0.5
