@@ -37,10 +37,17 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        // Click or spacebar advances dialogue
         if (!_waitingForInput) return;
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("DialogueManager — input received, advancing line");
             AdvanceLine();
+        }
+    }
+
+    private void OnDisable()
+    {
+        Debug.LogError("DialogueManager was DISABLED — this is killing the coroutine");
     }
 
     // ── Public API ───────────────────────────────────────────────────
@@ -51,14 +58,38 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void PlayHint()
     {
-        int taskIndex = GameManager.Instance.TasksCompleted; // 0-based
-        if (taskIndex >= hintSequences.Count)
+        // Ask RoomManager which objective is active this round
+        RoomManager rm = FindAnyObjectByType<RoomManager>();
+        if (rm == null)
         {
-            // No hint defined — skip straight through
-            RoomManager_FinishHint();
+            FindAnyObjectByType<RoomManager>()?.OnHintComplete();
             return;
         }
-        StartDialogue(hintSequences[taskIndex], RoomManager_FinishHint);
+
+        ObjectiveData obj = rm.CurrentObjective;
+
+        // Build a one-line sequence dynamically from the objective's data
+        DialogueSequence hint = new DialogueSequence();
+        hint.lines = new List<DialogueLine>
+    {
+        new DialogueLine { speaker = "Vanapagan", text = obj.hintLine }
+    };
+
+        // Play audio cue first if assigned, then dialogue
+        StartCoroutine(PlayHintSequence(hint, obj.hintAudio, rm));
+    }
+
+    private IEnumerator PlayHintSequence(DialogueSequence hint, AudioClip audio, RoomManager rm)
+    {
+        // Play audio cue
+        if (audio != null)
+        {
+            AudioSource.PlayClipAtPoint(audio, Camera.main.transform.position);
+            yield return new WaitForSeconds(audio.length + 0.3f);
+        }
+
+        // Then play the dialogue
+        StartDialogue(hint, rm.OnHintComplete);
     }
 
     /// <summary>
@@ -67,12 +98,26 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void PlayPostTask(bool taskSucceeded)
     {
-        int taskIndex = GameManager.Instance.TasksCompleted - 1; // -1: task already counted
+        Debug.Log($"PlayPostTask called — taskSucceeded={taskSucceeded}, tasksCompleted={GameManager.Instance.TasksCompleted}");
+
+        int taskIndex = GameManager.Instance.TasksCompleted - 1;
+        Debug.Log($"PlayPostTask — taskIndex={taskIndex}, postTaskSequences.Count={postTaskSequences.Count}");
+
         if (taskIndex < 0 || taskIndex >= postTaskSequences.Count)
         {
+            Debug.LogWarning("PlayPostTask — no sequence found, calling OnDialogueFinished directly");
             GameManager.Instance.OnDialogueFinished();
             return;
         }
+
+        if (postTaskSequences[taskIndex].lines == null || postTaskSequences[taskIndex].lines.Count == 0)
+        {
+            Debug.LogWarning("PlayPostTask — sequence has no lines, calling OnDialogueFinished directly");
+            GameManager.Instance.OnDialogueFinished();
+            return;
+        }
+
+        Debug.Log($"PlayPostTask — starting sequence '{postTaskSequences[taskIndex].sequenceName}'");
         StartDialogue(postTaskSequences[taskIndex], GameManager.Instance.OnDialogueFinished);
     }
 
@@ -87,14 +132,18 @@ public class DialogueManager : MonoBehaviour
         _lineIndex = 0;
         _onComplete = onComplete;
 
+        Debug.Log($"StartDialogue — setting panel active, lines count={_lines.Count}");
         dialoguePanel.SetActive(true);
+        Debug.Log($"StartDialogue — panel active={dialoguePanel.activeSelf}");
         ShowCurrentLine();
     }
 
     private void ShowCurrentLine()
     {
+        Debug.Log($"ShowCurrentLine — lineIndex={_lineIndex}");
         if (_lineIndex >= _lines.Count)
         {
+            Debug.Log("ShowCurrentLine — no more lines, ending dialogue");
             EndDialogue();
             return;
         }
@@ -108,10 +157,12 @@ public class DialogueManager : MonoBehaviour
 
         if (_typeCoroutine != null) StopCoroutine(_typeCoroutine);
         _typeCoroutine = StartCoroutine(TypeLine(line.text));
+        Debug.Log($"ShowCurrentLine — started TypeLine coroutine for: '{line.text}'");
     }
 
     private IEnumerator TypeLine(string text)
     {
+        Debug.Log("TypeLine — coroutine started");
         bodyText.text = "";
         foreach (char c in text)
         {
@@ -119,6 +170,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(typeSpeed);
         }
 
+        Debug.Log("TypeLine — finished typing, waiting for input");
         _lineComplete = true;
         continuePrompt.SetActive(true);
 
@@ -130,6 +182,7 @@ public class DialogueManager : MonoBehaviour
         else
         {
             _waitingForInput = true;
+            Debug.Log("TypeLine — waitingForInput = true, click or space to advance");
         }
     }
 
@@ -159,13 +212,6 @@ public class DialogueManager : MonoBehaviour
         continuePrompt.SetActive(false);
         _waitingForInput = false;
         _onComplete?.Invoke();
-    }
-
-    // ── Helpers ──────────────────────────────────────────────────────
-    private void RoomManager_FinishHint()
-    {
-        // Find RoomManager without a hard reference
-        FindFirstObjectByType<RoomManager>()?.OnHintComplete();
     }
 }
 

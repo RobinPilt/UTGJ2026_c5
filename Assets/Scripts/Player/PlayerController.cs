@@ -19,6 +19,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform ballVisual;   // child mesh that spins visually
     [SerializeField] private NavMarker navMarker;    // scene instance of the marker prefab
 
+    [Header("Rolling Audio")]
+    [SerializeField] private AudioSource rollAudioSource;
+    [SerializeField] private float minPitch = 0.8f;
+    [SerializeField] private float maxPitch = 1.4f;
+    [SerializeField] private float fadeInSpeed = 3f;  // slow = subtle fade in
+    [SerializeField] private float fadeOutSpeed = 1.5f; // slower = longer fade out
+    [SerializeField] private float rollSpeedThreshold = 1.2f; // start fading out earlier
+
     private Rigidbody _rb;
     private Vector3 _targetPos;
     private bool _hasTarget;
@@ -64,6 +72,7 @@ public class PlayerController : MonoBehaviour
         if (!_inputEnabled) return;
         HandleClick();
         RollBallVisual();
+        UpdateRollAudio();
     }
 
     private void FixedUpdate()
@@ -125,6 +134,32 @@ public class PlayerController : MonoBehaviour
         ballVisual.Rotate(rollAxis, rollDeg * Time.deltaTime, Space.World);
     }
 
+    private void UpdateRollAudio()
+    {
+        if (rollAudioSource == null) return;
+
+        Vector3 flatVel = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+        float speed = flatVel.magnitude;
+
+        bool shouldPlay = _inputEnabled && speed > rollSpeedThreshold;
+
+        float currentVol = rollAudioSource.volume;
+        float targetVol = shouldPlay ? 1f : 0f;
+
+        // Use different speeds for fade in vs fade out
+        float fadeSpeed = shouldPlay ? fadeInSpeed : fadeOutSpeed;
+
+        rollAudioSource.volume = Mathf.MoveTowards(currentVol, targetVol, fadeSpeed * Time.deltaTime);
+
+        rollAudioSource.pitch = Mathf.Lerp(minPitch, maxPitch,
+            Mathf.Clamp01(speed / maxSpeed));
+
+        if (targetVol > 0f && !rollAudioSource.isPlaying)
+            rollAudioSource.Play();
+        else if (rollAudioSource.volume < 0.01f && rollAudioSource.isPlaying)
+            rollAudioSource.Stop();
+    }
+
     // ── Public API ───────────────────────────────────────────────────
     public void EnableInput() => SetInput(true);
     public void DisableInput() => SetInput(false);
@@ -135,6 +170,15 @@ public class PlayerController : MonoBehaviour
         _hasTarget = false;
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
-        if (!on) navMarker?.Hide();
+        if (!on)
+        {
+            navMarker?.Hide();
+            // Force-stop rolling audio immediately when input is locked
+            if (rollAudioSource != null)
+            {
+                rollAudioSource.volume = 0f;
+                rollAudioSource.Stop();
+            }
+        }
     }
 }

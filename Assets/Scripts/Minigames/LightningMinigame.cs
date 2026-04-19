@@ -116,12 +116,12 @@ public class LightningMinigame : Minigame
 
                 if (_missCount >= maxMisses)
                 {
-                    yield return StartCoroutine(ShowFeedback("LIIGA HILJA! EBAÕNNESTUS!", 1.2f));
+                    yield return StartCoroutine(ShowFeedback("TOO LATE! TRY AGAIN!", 1.2f));
                     TriggerComplete(false);
                     yield break;
                 }
 
-                yield return StartCoroutine(ShowFeedback("LIIGA HILJA!", 0.8f));
+                yield return StartCoroutine(ShowFeedback("TOO LATE!", 0.8f));
             }
         }
     }
@@ -164,7 +164,7 @@ public class LightningMinigame : Minigame
             }
             else
             {
-                StartCoroutine(ShowFeedback("LIIGA VARA!", 0.8f));
+                StartCoroutine(ShowFeedback("TOO EARLY!", 0.8f));
             }
             return;
         }
@@ -186,7 +186,7 @@ public class LightningMinigame : Minigame
         }
         else
         {
-            StartCoroutine(ShowFeedback("HEA!", 0.6f));
+            StartCoroutine(ShowFeedback("GOOD!", 0.6f));
         }
     }
 
@@ -195,13 +195,13 @@ public class LightningMinigame : Minigame
     private IEnumerator EarlyFailSequence()
     {
         _lightningPending = false;
-        yield return StartCoroutine(ShowFeedback("LIIGA VARA! EBAÕNNESTUS!", 1.2f));
+        yield return StartCoroutine(ShowFeedback("TOO EARLY! TRY AGAIN!", 1.2f));
         TriggerComplete(false);
     }
 
     private IEnumerator FinishSuccess()
     {
-        yield return StartCoroutine(ShowFeedback("VALMIS!", 1.2f));
+        yield return StartCoroutine(ShowFeedback("WELL DONE!", 1.2f));
         TriggerComplete(true);
     }
 

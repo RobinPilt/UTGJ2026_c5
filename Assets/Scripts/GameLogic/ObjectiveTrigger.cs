@@ -1,18 +1,17 @@
 using UnityEngine;
 
-/// <summary>
-/// Place on any invisible trigger collider in the scene.
-/// When Kratt enters during Navigation, fires the Minigame transition.
-/// </summary>
 [RequireComponent(typeof(Collider))]
 public class ObjectiveTrigger : MonoBehaviour
 {
-    [Tooltip("Optional: glow or animate this object to hint at the goal.")]
     [SerializeField] private GameObject visualIndicator;
+
+    private Collider _collider;
 
     private void Awake()
     {
-        GetComponent<Collider>().isTrigger = true;
+        _collider = GetComponent<Collider>();
+        _collider.isTrigger = true;
+        SetActive(false); // always start inactive
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,17 +23,24 @@ public class ObjectiveTrigger : MonoBehaviour
         GameManager.Instance.TransitionTo(GameState.Minigame);
     }
 
-    // Called by RoomManager to reposition between rounds
     public void PlaceAt(Vector3 position)
     {
         transform.position = position;
-        if (visualIndicator != null)
-            visualIndicator.SetActive(true);
+        SetActive(true);
     }
 
-    public void Deactivate()
+    public void Deactivate() => SetActive(false);
+
+    private void SetActive(bool on)
     {
+        // Lazy init in case RoomManager.Awake fires before our Awake
+        if (_collider == null)
+            _collider = GetComponent<Collider>();
+
+        if (_collider != null)
+            _collider.enabled = on;
+
         if (visualIndicator != null)
-            visualIndicator.SetActive(false);
+            visualIndicator.SetActive(on);
     }
 }

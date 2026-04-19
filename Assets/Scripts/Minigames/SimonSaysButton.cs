@@ -18,9 +18,14 @@ public class SimonSaysButton : MonoBehaviour, IPointerClickHandler
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip signalSound;
 
+    private SimonSaysGlowController _glowController;
+
     private bool _interactable = false;
 
-    private void Awake() => SetGlow(false);
+    private void Awake()
+    {
+        _glowController = GetComponent<SimonSaysGlowController>();
+    }
 
     public IEnumerator PlayFlash()
     {
@@ -41,10 +46,8 @@ public class SimonSaysButton : MonoBehaviour, IPointerClickHandler
 
     private void SetGlow(bool on)
     {
-        if (glowOverlay == null) return;
-        Color c = glowOverlay.color;
-        c.a = on ? glowAlpha : dimAlpha;
-        glowOverlay.color = c;
+        if (_glowController != null)
+            _glowController.SetGlow(on);
     }
 }
 

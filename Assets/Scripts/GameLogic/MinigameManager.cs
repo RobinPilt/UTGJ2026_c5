@@ -6,10 +6,10 @@ public class MinigameManager : MonoBehaviour
     public static MinigameManager Instance { get; private set; }
 
     [Header("Minigames — one per task, in order")]
-    [Tooltip("Index 0 = task 1, index 1 = task 2, index 2 = task 3.")]
     [SerializeField] private List<Minigame> minigames = new();
 
     private Minigame _active;
+    private CanvasGroup _activeGroup;
 
     // ── Lifecycle ─────────────────────────────────────────────────────
     private void Awake()
@@ -20,11 +20,14 @@ public class MinigameManager : MonoBehaviour
 
     private void Start()
     {
-        // All panels start hidden
         foreach (var m in minigames)
-            if (m != null) m.gameObject.SetActive(false);
+        {
+            if (m == null) continue;
+            m.gameObject.SetActive(false);
+            if (m.GetComponent<CanvasGroup>() == null)
+                m.gameObject.AddComponent<CanvasGroup>();
+        }
 
-        // Subscribe to GameManager
         if (GameManager.Instance != null)
             GameManager.Instance.OnMinigameBegin.AddListener(BeginCurrentMinigame);
     }
@@ -39,31 +42,77 @@ public class MinigameManager : MonoBehaviour
 
     private void BeginCurrentMinigame()
     {
-        int index = GameManager.Instance.TasksCompleted; // 0-based, not yet incremented
+        int index = GameManager.Instance.TasksCompleted;
 
         if (index >= minigames.Count || minigames[index] == null)
         {
-            Debug.LogWarning($"MinigameManager: no minigame assigned for task {index}. Auto-passing.");
+            Debug.LogWarning($"MinigameManager: no minigame for task {index}. Auto-passing.");
             ResolveCurrentMinigame(true);
             return;
         }
 
         _active = minigames[index];
+        _activeGroup = _active.GetComponent<CanvasGroup>();
+
+        // Enable shared CRT pipeline before transition
+        MinigameCRTController.Instance?.SetPipelineActive(true);
+
+        MinigameTransitionManager.Instance.TransitionIn(
+            panelGroup: _activeGroup,
+            onBlack: ActivatePanelHidden,
+            onComplete: StartMinigameLogic
+        );
+    }
+
+    private void ActivatePanelHidden()
+    {
+        _active.gameObject.SetActive(true);
+        _active.OnPipelineEnable();
+        if (_activeGroup != null)
+        {
+            _activeGroup.alpha = 0f;
+            _activeGroup.interactable = false;
+            _activeGroup.blocksRaycasts = false;
+        }
+    }
+
+    private void StartMinigameLogic()
+    {
+        if (_activeGroup != null)
+        {
+            _activeGroup.interactable = true;
+            _activeGroup.blocksRaycasts = true;
+        }
         _active.Begin();
     }
 
-    /// <summary>
-    /// Called by Minigame.Complete(). Do not call this directly from minigame scripts —
-    /// use Complete(true/false) inside your Minigame subclass instead.
-    /// </summary>
     public void ResolveCurrentMinigame(bool success)
     {
-        if (_active != null)
+        if (_activeGroup != null)
         {
-            _active.End();
-            _active = null;
+            _activeGroup.interactable = false;
+            _activeGroup.blocksRaycasts = false;
         }
 
-        GameManager.Instance.ReportTaskResult(success);
+        if (_active != null)
+        {
+            _active.OnPipelineDisable();
+            _active.End();
+        }
+
+        MinigameTransitionManager.Instance.TransitionOut(
+            panelGroup: _activeGroup,
+            onBlack: () =>
+            {
+                // Disable CRT once fully black — before dialogue appears
+                MinigameCRTController.Instance?.SetPipelineActive(false);
+            },
+            onComplete: () =>
+            {
+                _active = null;
+                _activeGroup = null;
+                GameManager.Instance.ReportTaskResult(success);
+            }
+        );
     }
 }

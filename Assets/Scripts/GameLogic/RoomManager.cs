@@ -5,132 +5,51 @@ using UnityEngine.Events;
 
 public class RoomManager : MonoBehaviour
 {
-    [Header("Slots — place PropSlot objects in the scene")]
+    [Header("Slots — PropSlot objects placed in scene")]
     [SerializeField] private List<PropSlot> slots = new();
 
-    [Header("Props — all moveable objects in the room")]
+    [Header("Props — all moveable objects including objective props")]
     [SerializeField] private List<GameObject> props = new();
 
-    [Header("Objective props — one per task, in order")]
-    [Tooltip("Assign the GameObject that holds ObjectiveTrigger for each task (index 0 = task 1).")]
-    [SerializeField] private List<ObjectiveTrigger> objectiveTriggers = new();
+    [Header("Objectives — one per task, order does NOT matter here")]
+    [Tooltip("Each entry is one objective. Order is randomised at runtime.")]
+    [SerializeField] private List<ObjectiveData> objectives = new();
 
     [Header("Reload Feel")]
-    [SerializeField] private float fadeInDelay = 0.2f; // pause on black before fade-in
-    [SerializeField] private float hintDelay = 0.5f; // pause after fade-in before hint fires
+    [SerializeField] private float fadeInDelay = 0.2f;
+    [SerializeField] private float hintDelay = 0.5f;
 
     [Header("Events")]
-    [Tooltip("Fired after fade-in. Wire your DialogueManager hint method here.")]
+    [Tooltip("Fired after fade-in. Wire to DialogueManager.PlayHint.")]
     public UnityEvent OnHintBegin;
 
-    // Temporary — add to RoomManager for testing, remove later
-    [ContextMenu("DEBUG Skip Hint")]
-    public void DebugSkipHint() => OnHintComplete();
+    // ── Internal ──────────────────────────────────────────────────────
+    private List<int> _shuffledOrder = new(); // shuffled indices into objectives list
+    private int _currentRound = 0;     // 0, 1, 2
 
-    // ── Internal ─────────────────────────────────────────────────────
-    private int _currentTaskIndex = 0; // tracks which objectiveTrigger is active
-
-    // ── Public API ───────────────────────────────────────────────────
+    // ── Public accessors ──────────────────────────────────────────────
 
     /// <summary>
-    /// Called by GameManager.OnRoomReloadBegin (wire in Inspector).
-    /// Runs the full: fade → shuffle → fade-in → hint sequence.
+    /// Returns the ObjectiveData for the current round.
+    /// DialogueManager calls this to know which hint + audio to play.
     /// </summary>
-    public void BeginReload()
-    {
-        _currentTaskIndex = GameManager.Instance.TasksCompleted; // 0-based
-        StartCoroutine(ReloadSequence());
-    }
+    public ObjectiveData CurrentObjective =>
+        objectives[_shuffledOrder[_currentRound]];
 
-    /// <summary>
-    /// Called by DialogueManager (or whoever runs the hint) when hint is done.
-    /// Hands control back to GameManager → unlocks player input.
-    /// </summary>
-    public void OnHintComplete()
+    // ── Lifecycle ─────────────────────────────────────────────────────
+    private void Awake()
     {
-        ActivateCurrentObjective();
-        GameManager.Instance.OnRoomReady();
-    }
-
-    // ── Sequence ─────────────────────────────────────────────────────
-    private IEnumerator ReloadSequence()
-    {
-        // 1. Fade to black
-        bool blackReached = false;
-        ScreenFader.Instance.FadeOut(() => blackReached = true);
-        yield return new WaitUntil(() => blackReached);
-
-        // 2. Shuffle props while hidden
-        yield return new WaitForSeconds(fadeInDelay);
-        ShuffleProps();
+        // Must run before GameManager.Start() calls PlayInitialHint()
+        ShuffleObjectiveOrder();
         DeactivateAllObjectives();
-
-        // 3. Fade back in
-        bool fadeInDone = false;
-        ScreenFader.Instance.FadeIn(() => fadeInDone = true);
-        yield return new WaitUntil(() => fadeInDone);
-
-        // 4. Brief pause then fire hint
-        yield return new WaitForSeconds(hintDelay);
-        OnHintBegin?.Invoke();
-
-        // OnHintComplete() will be called externally to finish the sequence
     }
 
-    // ── Prop shuffling ────────────────────────────────────────────────
-    private void ShuffleProps()
-    {
-        if (props.Count == 0 || slots.Count == 0)
-        {
-            Debug.LogWarning("RoomManager: no props or slots assigned.");
-            return;
-        }
-
-        // Shuffle the slots list (Fisher-Yates)
-        List<PropSlot> shuffled = new(slots);
-        for (int i = shuffled.Count - 1; i > 0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            (shuffled[i], shuffled[j]) = (shuffled[j], shuffled[i]);
-        }
-
-        // Assign each prop to a slot — more props than slots is fine (extras stay put)
-        int count = Mathf.Min(props.Count, shuffled.Count);
-        for (int i = 0; i < count; i++)
-        {
-            if (props[i] == null) continue;
-            props[i].transform.position = shuffled[i].transform.position;
-            props[i].transform.rotation = shuffled[i].transform.rotation;
-        }
-    }
-
-    // ── Objective management ──────────────────────────────────────────
-    private void DeactivateAllObjectives()
-    {
-        foreach (var trigger in objectiveTriggers)
-            trigger?.Deactivate();
-    }
-
-    private void ActivateCurrentObjective()
-    {
-        if (_currentTaskIndex >= objectiveTriggers.Count)
-        {
-            Debug.LogWarning($"RoomManager: no ObjectiveTrigger for task {_currentTaskIndex}.");
-            return;
-        }
-        objectiveTriggers[_currentTaskIndex]?.PlaceAt(
-            objectiveTriggers[_currentTaskIndex].transform.position
-        );
-    }
-
-    // ── First load ────────────────────────────────────────────────────
     private void Start()
     {
-        // Wire GameManager event automatically
         if (GameManager.Instance != null)
             GameManager.Instance.OnRoomReloadBegin.AddListener(BeginReload);
 
-        // Activate task 0 objective on first load
+        // Objective already shuffled in Awake — just activate current one
         ActivateCurrentObjective();
     }
 
@@ -140,14 +59,122 @@ public class RoomManager : MonoBehaviour
             GameManager.Instance.OnRoomReloadBegin.RemoveListener(BeginReload);
     }
 
-    /// <summary>
-    /// Called once on first scene load. Skips the fade and shuffle —
-    /// just fires the hint, then hands off to Navigation.
-    /// </summary>
+    // ── Public API ────────────────────────────────────────────────────
+
+    /// <summary>Called once on first load — skips fade/shuffle, just plays hint.</summary>
     public void PlayInitialHint()
     {
         ActivateCurrentObjective();
-        OnHintBegin?.Invoke(); // → DialogueManager.PlayHint()
-                               // OnHintComplete() → GameManager.OnRoomReady() → Navigation as usual
+        OnHintBegin?.Invoke();
     }
+
+    /// <summary>Called by DialogueManager when hint sequence finishes.</summary>
+    public void OnHintComplete()
+    {
+        GameManager.Instance.OnRoomReady();
+    }
+
+    // ── Reload sequence ───────────────────────────────────────────────
+
+    public void BeginReload()
+    {
+        Debug.Log($"BeginReload called — currentRound={_currentRound}");
+        DeactivateObjective(_shuffledOrder[_currentRound]);
+        _currentRound++;
+        Debug.Log($"BeginReload — incrementing to round {_currentRound}");
+        StartCoroutine(ReloadSequence());
+    }
+
+    private IEnumerator ReloadSequence()
+    {
+        Debug.Log("ReloadSequence — fading out");
+        bool fadeComplete = false;
+        ScreenFader.Instance.FadeOut(() => fadeComplete = true);
+        yield return new WaitUntil(() => fadeComplete);
+
+        Debug.Log("ReloadSequence — shuffling props");
+        yield return new WaitForSeconds(fadeInDelay);
+        ShuffleProps();
+        ActivateCurrentObjective();
+
+        Debug.Log("ReloadSequence — fading in");
+        bool fadeInDone = false;
+        ScreenFader.Instance.FadeIn(() => fadeInDone = true);
+        yield return new WaitUntil(() => fadeInDone);
+
+        Debug.Log("ReloadSequence — firing OnHintBegin");
+        yield return new WaitForSeconds(hintDelay);
+        OnHintBegin?.Invoke();
+    }
+
+    // ── Objective management ──────────────────────────────────────────
+
+    private void ShuffleObjectiveOrder()
+    {
+        _shuffledOrder.Clear();
+        for (int i = 0; i < objectives.Count; i++)
+            _shuffledOrder.Add(i);
+
+        // Fisher-Yates
+        for (int i = _shuffledOrder.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (_shuffledOrder[i], _shuffledOrder[j]) = (_shuffledOrder[j], _shuffledOrder[i]);
+        }
+    }
+
+    private void ActivateCurrentObjective()
+    {
+        if (_currentRound >= _shuffledOrder.Count) return;
+
+        ObjectiveData obj = objectives[_shuffledOrder[_currentRound]];
+        obj.trigger?.PlaceAt(obj.trigger.transform.position);
+    }
+
+    private void DeactivateObjective(int index)
+    {
+        if (index < 0 || index >= objectives.Count) return;
+        objectives[index].trigger?.Deactivate();
+    }
+
+    private void DeactivateAllObjectives()
+    {
+        foreach (var obj in objectives)
+            obj.trigger?.Deactivate();
+    }
+
+    // ── Prop shuffling ────────────────────────────────────────────────
+
+    private void ShuffleProps()
+    {
+        if (props.Count == 0 || slots.Count == 0) return;
+
+        List<PropSlot> shuffled = new(slots);
+        for (int i = shuffled.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (shuffled[i], shuffled[j]) = (shuffled[j], shuffled[i]);
+        }
+
+        int count = Mathf.Min(props.Count, shuffled.Count);
+        for (int i = 0; i < count; i++)
+        {
+            if (props[i] == null) continue;
+            props[i].transform.position = shuffled[i].transform.position;
+            props[i].transform.rotation = shuffled[i].transform.rotation;
+        }
+    }
+}
+
+/// <summary>
+/// Groups everything about one objective in one Inspector entry.
+/// </summary>
+[System.Serializable]
+public class ObjectiveData
+{
+    public string objectiveName;  // just for your sanity in the Inspector
+    public ObjectiveTrigger trigger;       // the prop with ObjectiveTrigger.cs
+    public AudioClip hintAudio;     // plays when this objective is hinted
+    [TextArea(1, 3)]
+    public string hintLine;      // Vanapagan's line for this objective
 }

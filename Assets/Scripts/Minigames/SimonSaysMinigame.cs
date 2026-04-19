@@ -25,11 +25,14 @@ public class SimonSaysMinigame : Minigame
     private bool _playerTurn = false;
     private int _currentRound = 0;
 
+    // ── Lifecycle ─────────────────────────────────────────────────────
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(this); return; }
         Instance = this;
     }
+
+    // ── Minigame overrides ────────────────────────────────────────────
 
     protected override void OnBegin()
     {
@@ -47,6 +50,8 @@ public class SimonSaysMinigame : Minigame
         _playerTurn = false;
         _currentRound = 0;
     }
+
+    // ── Round runner ──────────────────────────────────────────────────
 
     private IEnumerator RunRound()
     {
@@ -73,12 +78,15 @@ public class SimonSaysMinigame : Minigame
         }
     }
 
+    // ── Player input ──────────────────────────────────────────────────
+
     public void OnButtonPressed(SignalType pressed)
     {
         if (!_playerTurn) return;
 
         if (pressed != _sequence[_playerIndex])
         {
+            MinigameCRTController.Instance?.TriggerWrongPressFlash();
             _playerTurn = false;
             SetAllInteractable(false);
             SetStatus("Wrong!");
@@ -87,10 +95,8 @@ public class SimonSaysMinigame : Minigame
         }
 
         _playerIndex++;
-
         if (_playerIndex < _sequence.Count) return;
 
-        // Round cleared
         _playerTurn = false;
         SetAllInteractable(false);
         _currentRound++;
@@ -112,6 +118,8 @@ public class SimonSaysMinigame : Minigame
         yield return new WaitForSeconds(betweenRounds);
         StartCoroutine(RunRound());
     }
+
+    // ── Helpers ───────────────────────────────────────────────────────
 
     private void GenerateSequence(int length)
     {
