@@ -71,24 +71,21 @@ public class GameManager : MonoBehaviour
         _tasksCompleted++;
         if (success) _tasksSucceeded++;
 
-        OnMinigameResolved?.Invoke(success);
-
-        // Any failure → immediate bad ending
         if (!success)
         {
             TriggerEnding(false);
             return;
         }
 
-        // All tasks passed → good ending
         if (_tasksCompleted >= totalTasks)
         {
             TriggerEnding(true);
             return;
         }
 
-        // More tasks remain → continue loop
+        // Call DialogueManager directly — don't use the Inspector event
         TransitionTo(GameState.Dialogue);
+        FindFirstObjectByType<DialogueManager>()?.PlayPostTask(true);
     }
 
     /// <summary>Called by DialogueManager when post-task lines finish.</summary>
@@ -105,7 +102,9 @@ public class GameManager : MonoBehaviour
     {
         _state = GameState.EndGame;
 
-        // Store result so OutroScene can read it
+        // Cleanly stop any dialogue coroutine before scene loads
+        FindFirstObjectByType<DialogueManager>()?.ForceStop();
+
         if (GameResult.Instance != null)
         {
             GameResult.Instance.Set(goodEnding);
@@ -117,7 +116,6 @@ public class GameManager : MonoBehaviour
             gr.Set(goodEnding);
         }
 
-        // Fade out then load OutroScene
         ScreenFader.Instance.FadeOut(() =>
             UnityEngine.SceneManagement.SceneManager.LoadScene(outroSceneName));
     }

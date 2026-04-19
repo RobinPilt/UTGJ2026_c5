@@ -48,15 +48,12 @@ public class MinigameCRTController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_instance != null) Destroy(_instance);
-
-        // Cleanup the dynamic texture to prevent memory leaks
-        if (_dynamicRT != null)
-        {
+        // Clear the camera's render texture before it gets destroyed
+        // to avoid MissingReferenceException
+        if (minigameUICamera != null)
             minigameUICamera.targetTexture = null;
-            _dynamicRT.Release();
-            Destroy(_dynamicRT);
-        }
+
+        if (_instance != null) Destroy(_instance);
     }
 
     public void SetPipelineActive(bool on)

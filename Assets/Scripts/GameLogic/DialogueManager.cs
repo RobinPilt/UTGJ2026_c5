@@ -45,9 +45,17 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    /// <summary>
+    /// Called before scene transitions to cleanly stop any running dialogue.
+    /// Prevents "coroutine killed" errors on scene unload.
+    /// </summary>
+    public void ForceStop()
     {
-        Debug.LogError("DialogueManager was DISABLED — this is killing the coroutine");
+        StopAllCoroutines();
+        _waitingForInput = false;
+        _lineComplete = false;
+        if (dialoguePanel != null)
+            dialoguePanel.SetActive(false);
     }
 
     // ── Public API ───────────────────────────────────────────────────
