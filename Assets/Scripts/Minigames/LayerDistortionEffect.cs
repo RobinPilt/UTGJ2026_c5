@@ -15,8 +15,8 @@ public class LayerDistortionEffect : BaseMeshEffect
     [HideInInspector] public bool pullUp = false;
 
     [Header("Warp Settings")]
-    [SerializeField] private float maxStretch = 60f;  // max pixel stretch at seam edge
-    [SerializeField] private float wobbleAmount = 12f;  // lateral wobble magnitude
+    [SerializeField] private float maxStretch = 8f;  // max pixel stretch at seam edge
+    [SerializeField] private float wobbleAmount = 2f;  // lateral wobble magnitude
     [SerializeField] private float wobbleSpeed = 4f;   // wobble frequency
 
     private float _wobbleTime;
