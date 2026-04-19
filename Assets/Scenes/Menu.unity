@@ -238,7 +238,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 0534fa38f99b75f4a916ed203871b3dd, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.06
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   buttonText: {fileID: 1076630046}
   normalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
-  clickSound: {fileID: 8300000, guid: 0534fa38f99b75f4a916ed203871b3dd, type: 3}
+  clickSound: {fileID: 8300000, guid: b050f012e3cb4d84ea5c0834ccc12713, type: 3}
   audioSource: {fileID: 37229406}
 --- !u!1 &1070345053
 GameObject:
@@ -2364,7 +2364,7 @@ MonoBehaviour:
   buttonText: {fileID: 874371916}
   normalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
-  clickSound: {fileID: 8300000, guid: 0534fa38f99b75f4a916ed203871b3dd, type: 3}
+  clickSound: {fileID: 8300000, guid: b050f012e3cb4d84ea5c0834ccc12713, type: 3}
   audioSource: {fileID: 37229406}
 --- !u!1 &1383947783
 GameObject:
@@ -3314,7 +3314,7 @@ MonoBehaviour:
   buttonText: {fileID: 1581380294}
   normalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
-  clickSound: {fileID: 8300000, guid: 0534fa38f99b75f4a916ed203871b3dd, type: 3}
+  clickSound: {fileID: 8300000, guid: b050f012e3cb4d84ea5c0834ccc12713, type: 3}
   audioSource: {fileID: 37229406}
 --- !u!1 &1824587043
 GameObject:
@@ -3572,7 +3572,7 @@ MonoBehaviour:
   buttonText: {fileID: 1070345055}
   normalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
-  clickSound: {fileID: 8300000, guid: 0534fa38f99b75f4a916ed203871b3dd, type: 3}
+  clickSound: {fileID: 8300000, guid: 19b184ac71366484c92adab500934282, type: 3}
   audioSource: {fileID: 37229406}
 --- !u!1 &1952188311
 GameObject:
