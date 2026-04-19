@@ -2837,8 +2837,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.3656397, y: 11.790276, z: 12.857853}
-  m_Center: {x: 0.12048483, y: 5.395136, z: 4.2911057}
+  m_Size: {x: 6.8519163, y: 11.790276, z: 12.857853}
+  m_Center: {x: 0.29278755, y: 5.395136, z: 4.2911057}
 --- !u!1 &837129987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3774,7 +3774,7 @@ MonoBehaviour:
   - {fileID: 1027926244}
   - {fileID: 476182285}
   - {fileID: 1555624278}
-  - {fileID: 1555624278}
+  - {fileID: 576802475}
   props:
   - {fileID: 919132148248777831}
   - {fileID: 919132148486809161}
@@ -8343,6 +8343,7 @@ GameObject:
   - component: {fileID: 543450652937425834}
   - component: {fileID: 804746307}
   - component: {fileID: 919132148751550737}
+  - component: {fileID: 919132148751550738}
   m_Layer: 0
   m_Name: Ketraja
   m_TagString: Untagged
@@ -8363,6 +8364,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectiveTrigger
   visualIndicator: {fileID: 0}
+--- !u!65 &919132148751550738
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148751550736}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.0740232, y: 11.51564, z: 11.676082}
+  m_Center: {x: 0.22795677, y: 5.257819, z: 3.9036446}
 --- !u!1 &919132148812716948
 GameObject:
   m_ObjectHideFlags: 0
@@ -10778,6 +10800,7 @@ GameObject:
   - component: {fileID: 7513754049426056266}
   - component: {fileID: 8650600847109955367}
   - component: {fileID: 8650600847109955366}
+  - component: {fileID: 8650600847109955368}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -11131,6 +11154,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectiveTrigger
   visualIndicator: {fileID: 0}
+--- !u!65 &8650600847109955368
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8306549830753109407}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3140794, y: 2.863131, z: 1.8329363}
+  m_Center: {x: -0.00000023854264, y: 0.32840458, z: -0.15602508}
 --- !u!4 &8670761335079589786
 Transform:
   m_ObjectHideFlags: 0
