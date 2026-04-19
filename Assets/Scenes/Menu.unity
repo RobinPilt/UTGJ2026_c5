@@ -3306,7 +3306,7 @@ MonoBehaviour:
   buttonText: {fileID: 1070345055}
   normalColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
-  clickSound: {fileID: 8300000, guid: 0534fa38f99b75f4a916ed203871b3dd, type: 3}
+  clickSound: {fileID: 8300000, guid: 19b184ac71366484c92adab500934282, type: 3}
   audioSource: {fileID: 37229406}
 --- !u!1 &1952188311
 GameObject:
