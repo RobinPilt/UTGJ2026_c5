@@ -46,11 +46,11 @@ public class ConnectLayers : Minigame
 
     [Header("Colors")]
     [SerializeField] private Color idleColor      = Color.white;
-    [SerializeField] private Color hoverPlayColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+    [SerializeField] private Color hoverPlayColor = new Color(1f, 1f, 1f, 1f);
     [SerializeField] private Color selectedColor  = new Color(1f, 1f, 1f, 1f);
     [SerializeField] private Color successColor   = new Color(0.5f, 0.65f, 0.5f, 1f);
     [SerializeField] private Color failColor      = Color.red;
-    [SerializeField] private Color activeColor    = new Color(1f, 0.92f, 0.2f, 1f);
+    [SerializeField] private Color activeColor    = new Color(1f, 1f, 1f, 1f);
     [SerializeField] private Color completedColor = new Color(0.5f, 0.65f, 0.5f, 1f);
 
     // ── Internal ──────────────────────────────────────────────────────
@@ -208,10 +208,7 @@ public class ConnectLayers : Minigame
 
         yield return new WaitForSeconds(1f);
 
-        ResetAllLayerColors();
-        _playerSelection.Clear();
-        RandomiseOrder();
-        StartCoroutine(IntroSequence());
+        TriggerComplete(false);
     }
 
     // ── Phase 3: Stitching ────────────────────────────────────────────
